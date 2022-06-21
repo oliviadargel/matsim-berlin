@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class NetworkChanger {
 
 	public static void rmTrafficFromRing(Network network){
+		// shapefile: https://opendata-esri-de.opendata.arcgis.com/datasets/esri-de-content::umweltzone-berlin/explore
 		var shpFileName = "/net/ils/matsim-class/olivia/ring-001/input/Umweltzone.shp";
 
 		var umweltzoneShape = ShapeFileReader.getAllFeatures(shpFileName);
