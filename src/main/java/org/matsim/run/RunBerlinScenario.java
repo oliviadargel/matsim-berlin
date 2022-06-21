@@ -82,7 +82,7 @@ public final class RunBerlinScenario {
 		Scenario scenario = prepareScenario( config );
 
 		// add links to network for homework
-		NetworkChanger.addA100Extension(scenario.getNetwork());
+		NetworkChanger.rmTrafficFromRing(scenario.getNetwork());
 
 		Controler controler = prepareControler( scenario ) ;
 		controler.run();
