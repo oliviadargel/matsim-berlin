@@ -15,11 +15,6 @@ public class NetworkChanger {
 
 
 	public static void addA100Extension(Network network) {
-		double length;
-		Node startNode1;
-		Node startNode2;
-		Node targetNode1;
-		Node targetNode2;
 
 		// set specification for all links
 		Set<String> allowedModes = new HashSet<>();
@@ -31,19 +26,16 @@ public class NetworkChanger {
 
 
 		double freespeed = 80 / 3.6;
+		double freespeed_as = 60 / 3.6;
 		double lanes = 3;
 		double capacity = lanes * 2 * 1000.0;
+		double capacity_as = 4500;
 
 
 		// set link specific properties and add links to network
 		// ---- Abschnitt 16 (3.2 km) ----
 //		{
-//			// Grenzallee to Sonnenallee
-//			startNode1 = null;  // 206191207 nach Norden
-//			startNode2 = null;  // 27542414 nach Sueden/Westen
-//			targetNode1 = null;  // 31390656 nach Norden
-//			targetNode2 = null;  // 1918530791
-
+			// Grenzallee to Sonnenallee
 			Node sonnenalleeN1 = network.getFactory().createNode(Id.createNodeId("sonnenallee-nord1"), new Coord(4599632, 5816201));
 			Node sonnenalleeN2 = network.getFactory().createNode(Id.createNodeId("sonnenallee-nord2"), new Coord(4599672, 5816235));
 
@@ -70,18 +62,46 @@ public class NetworkChanger {
 			addLinkToNetwork(network, "bab100-sonnenallee-grenzallee",
 					sonnenalleeS2, targetNode, allowedModes, capacity, freespeed, lanes, 746.417);
 
+			// Sonnenallee
+			// add AS for northern motorway
+			// motorway to street
+			Node node1 = network.getNodes().get(Id.get("31357357", Node.class));
+			Node node2 = network.getNodes().get(Id.get("31390656", Node.class));
+			addLinkToNetwork(network, "bab100-as-sonnenallee-n1",
+				sonnenalleeN1, node1, allowedModes, capacity_as, freespeed_as, lanes, 46.891);
+
+			addLinkToNetwork(network, "bab100-as-sonnenallee-n2",
+				sonnenalleeN1, node2, allowedModes, capacity_as, freespeed_as, lanes, 29.027);
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-sonnenallee-n3",
+					node2, sonnenalleeN2, allowedModes, capacity_as, freespeed_as, lanes, 41.814);
+
+			addLinkToNetwork(network, "bab100-as-sonnenallee-n4",
+					node1, sonnenalleeN2, allowedModes, capacity_as, freespeed_as, lanes, 40.529);
+
+			// add AS for southern motorway
+			// motorway to street
+			addLinkToNetwork(network, "bab100-as-sonnenallee-s1",
+					sonnenalleeS1, node1, allowedModes, capacity_as, freespeed_as, lanes, 27.534);
+
+			addLinkToNetwork(network, "bab100-as-sonnenallee-s2",
+					sonnenalleeS1, node2, allowedModes, capacity_as, freespeed_as, lanes, 34.344);
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-sonnenallee-s3",
+					node1, sonnenalleeS2, allowedModes, capacity_as, freespeed_as, lanes, 38.131);
+
+			addLinkToNetwork(network, "bab100-as-sonnenallee-s4",
+					node2, sonnenalleeS2, allowedModes, capacity_as, freespeed_as, lanes, 20.381);
+
 
 //			// Sonnenallee to Treptower Park
-//			startNode1 = null;  // 31357356 nach Norden
-//			startNode2 = null;  // 31357357 nach Sueden
-//			targetNode1 = null;  // 29787110
-//			targetNode2 = null;  // 29787103 sueden
+			Node trParkN1 = network.getFactory().createNode(Id.createNodeId("trpark-nord1"), new Coord(4599218,5818728));
+			Node trParkN2 = network.getFactory().createNode(Id.createNodeId("trpark-nord2"), new Coord(4599232,5818744));
 
-			Node trParkN1 = network.getFactory().createNode(Id.createNodeId("trpark-nord1"), new Coord(4599218,5818728 ));
-			Node trParkN2 = network.getFactory().createNode(Id.createNodeId("trpark-nord2"), new Coord(4599232, 5818744 ));
-
-			Node trParkS1 = network.getFactory().createNode(Id.createNodeId("trpark-sued1"), new Coord(4599229, 5818746));
-			Node trParkS2 = network.getFactory().createNode(Id.createNodeId("trpark-sued2"), new Coord(4599215, 5818729));
+			Node trParkS1 = network.getFactory().createNode(Id.createNodeId("trpark-sued1"), new Coord(4599229,5818746));
+			Node trParkS2 = network.getFactory().createNode(Id.createNodeId("trpark-sued2"), new Coord(4599215,5818729));
 
 			network.addNode(trParkN1);
 			network.addNode(trParkN2);
@@ -99,6 +119,39 @@ public class NetworkChanger {
 			addLinkToNetwork(network, "bab100-trpark-sonnenallee",
 					trParkS2, sonnenalleeS1, allowedModes, capacity, freespeed, lanes, 2523.780);
 
+			// Treptower Park
+			// add AS for northern motorway
+			// motorway to street
+			node1 = network.getNodes().get(Id.get("29787110", Node.class));
+			node2 = network.getNodes().get(Id.get("29787103", Node.class));
+			addLinkToNetwork(network, "bab100-as-trpark-n1",
+					trParkN1, node1, allowedModes, capacity_as, freespeed_as, lanes, 17.237);
+
+			addLinkToNetwork(network, "bab100-as-trpark-n2",
+					trParkN1, node2, allowedModes, capacity_as, freespeed_as, lanes, 25.292);
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-trpark-n3",
+					node1, trParkN2, allowedModes, capacity_as, freespeed_as, lanes, 6.519);
+
+			addLinkToNetwork(network, "bab100-as-trpark-n4",
+					node2, trParkN2, allowedModes, capacity_as, freespeed_as, lanes, 25.440);
+
+			// add AS for northern motorway
+			// motorway to street
+			addLinkToNetwork(network, "bab100-as-trpark-s1",
+					trParkS1, node1, allowedModes, capacity_as, freespeed_as, lanes, 4.296);
+
+			addLinkToNetwork(network, "bab100-as-trpark-s2",
+					trParkS1, node2, allowedModes, capacity_as, freespeed_as, lanes, 22.075);
+
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-trpark-s3",
+					node1, trParkS2, allowedModes, capacity_as, freespeed_as, lanes, 17.888);
+
+			addLinkToNetwork(network, "bab100-as-trpark-s4",
+					node2, trParkS2, allowedModes, capacity_as, freespeed_as, lanes, 23.262);
 
 //		}
 //
@@ -130,12 +183,43 @@ public class NetworkChanger {
 			addLinkToNetwork(network, "bab100-ostkreuz-trpark",
 					ostkreuzS2, trParkS1, allowedModes, capacity, freespeed, lanes, 1087.971);
 
+			// Ostkreuz
+			// add AS for northern motorway
+			// motorway to street
+			node1 = network.getNodes().get(Id.get("4370346530", Node.class));  // Hauptstr. -> east
+			Node node3 = network.getNodes().get(Id.get("4245068305", Node.class));  // Hauptstr. -> west
+			node2 = network.getNodes().get(Id.get("4317221792", Node.class));  // Markgrafenstr.
+			addLinkToNetwork(network, "bab100-as-ostkreuz-n1",
+					ostkreuzN1, node1, allowedModes, capacity_as, freespeed_as, lanes,  204.254);
+
+			addLinkToNetwork(network, "bab100-as-ostkreuz-n2",
+					ostkreuzN1, node2, allowedModes, capacity_as, freespeed_as, lanes, 399.905);
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-ostkreuz-n3",
+					node2, ostkreuzN2, allowedModes, capacity_as, freespeed_as, lanes, 517.954);
+
+			addLinkToNetwork(network, "bab100-as-ostkreuz-n4",
+					node3, ostkreuzN2, allowedModes, capacity_as, freespeed_as, lanes, 116.594);
+
+			// add AS for southern motorway
+			// motorway to street
+			addLinkToNetwork(network, "bab100-as-ostkreuz-s1",
+					ostkreuzS1, node1, allowedModes, capacity_as, freespeed_as, lanes, 130.743);
+
+			addLinkToNetwork(network, "bab100-as-ostkreuz-s2",
+					ostkreuzS1, node2, allowedModes, capacity_as, freespeed_as, lanes, 517.024);
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-ostkreuz-s3",
+					node3, ostkreuzS2, allowedModes, capacity_as, freespeed_as, lanes, 213.123);
+
+			addLinkToNetwork(network, "bab100-as-ostkreuz-s4",
+					node2, ostkreuzS2, allowedModes, capacity_as, freespeed_as, lanes, 518.711);
+
 
 
 //			// Ostkreuz to Frankfurter Allee
-//			startNode1 = null; //
-//			startNode2 = null;  //
-//			targetNode1 = null;  //  Guertelstr: 1791505417
 //			targetNode2 = null;  //  Kreuzung Moellendorffstr/Frankfurter Allee (von unten links gegen den Uhrzeigersinn):
 //			// 12614683, 598234402, 288267826, 29784919
 			Node frankfurterN1 = network.getFactory().createNode(Id.createNodeId("frankfurter-nord1"), new Coord(4600297, 5820952));
@@ -159,6 +243,40 @@ public class NetworkChanger {
 			addLinkToNetwork(network, "bab100-frankfurter-ostkreuz",
 					frankfurterS2, ostkreuzS1, allowedModes, capacity, freespeed, lanes, 1250.446);
 
+			// Frankfurter Allee
+			// add AS for northern motorway
+			// motorway to street
+			node1 = network.getNodes().get(Id.get("598234402", Node.class));  // Moellendorffstr. -> north
+			node2 = network.getNodes().get(Id.get("12614683", Node.class));  // Moellendorffstr. -> south
+			node3 = network.getNodes().get(Id.get("1791505417", Node.class));  // Guertelstr. -> both directions
+			addLinkToNetwork(network, "bab100-as-frankfurter-n1",
+					frankfurterN1, node1, allowedModes, capacity_as, freespeed_as, lanes,  133.202);
+
+			addLinkToNetwork(network, "bab100-as-frankfurter-n2",
+					frankfurterN1, node3, allowedModes, capacity_as, freespeed_as, lanes, 69.908);
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-frankfurter-n3",
+					node3, frankfurterN2, allowedModes, capacity_as, freespeed_as, lanes, 140.789);
+
+			addLinkToNetwork(network, "bab100-as-frankfurter-n4",
+					node2, frankfurterN2, allowedModes, capacity_as, freespeed_as, lanes, 69.509);
+
+			// add AS for southern motorway
+			// motorway to street
+			addLinkToNetwork(network, "bab100-as-frankfurter-s1",
+					frankfurterS1, node1, allowedModes, capacity_as, freespeed_as, lanes, 96.193);
+
+			addLinkToNetwork(network, "bab100-as-frankfurter-s2",
+					frankfurterS1, node3, allowedModes, capacity_as, freespeed_as, lanes, 140.105);
+
+			// street to motorway
+			addLinkToNetwork(network, "bab100-as-frankfurter-s3",
+					node2, frankfurterS2, allowedModes, capacity_as, freespeed_as, lanes, 125.315);
+
+			addLinkToNetwork(network, "bab100-as-frankfurter-s4",
+					node3, frankfurterS2, allowedModes, capacity_as, freespeed_as, lanes, 78.587);
+
 
 
 //			// Frankfurter Allee to Storkower Strasse (28373619, 28373623)
@@ -173,17 +291,15 @@ public class NetworkChanger {
 			addLinkToNetwork(network, "bab100-frankfurter-storkower",
 					frankfurterN2, storkowerN, allowedModes, capacity, freespeed, lanes, 1096.887);
 			addLinkToNetwork(network, "bab100-as-storkower-n",
-					storkowerN, targetNode, allowedModes, capacity, freespeed, lanes, 45.345);
+					storkowerN, targetNode, allowedModes, capacity_as, freespeed_as, lanes, 45.345);
 
 
 			// add motorway south/west direction to network
 			startNode = network.getNodes().get(Id.get("28373619", Node.class));  // Storkower Str
 			addLinkToNetwork(network, "bab100-as-storkower-s",
-					startNode, storkowerS, allowedModes, capacity, freespeed, lanes, 40.081);
+					startNode, storkowerS, allowedModes, capacity_as, freespeed_as, lanes, 40.081);
 			addLinkToNetwork(network, "bab100-storkower-frankfurter",
 					storkowerS, frankfurterS1, allowedModes, capacity, freespeed, lanes,1096.549);
-
-
 
 //		}
 //		NetworkUtils.writeNetwork(network, "scenarios/berlin-bab100-network-out.xml");
