@@ -35,7 +35,32 @@ public class NetworkChanger {
 		// set link specific properties and add links to network
 		// ---- Abschnitt 16 (3.2 km) ----
 //		{
-			// Grenzallee to Sonnenallee
+		// Grenzallee
+		Node startNode = network.getNodes().get(Id.get("206191207", Node.class));  // Motorway Grenzallee -> north/east
+		Node targetNode = network.getNodes().get(Id.get("27542427", Node.class));  // Motorway Grenzallee -> south/west
+
+		Node grenzalleeN = network.getFactory().createNode(Id.createNodeId("grenzallee-nord"), new Coord(4599148, 5815685));
+		Node grenzalleeS = network.getFactory().createNode(Id.createNodeId("grenzallee-sued"), new Coord(4599139, 5815692));
+
+		network.addNode(grenzalleeN);
+		network.addNode(grenzalleeS);
+
+		addLinkToNetwork(network, "bab100-grenzallee-n",
+				startNode, grenzalleeN, allowedModes, capacity_as, freespeed_as, lanes, 98.248);
+		addLinkToNetwork(network, "bab100-grenzallee-s",
+				grenzalleeS, targetNode, allowedModes, capacity, freespeed, lanes, 87.892);
+
+		// add missing AS to Grenzallee
+		Node node1 = network.getNodes().get(Id.get("27542432", Node.class));
+		Node node2 = network.getNodes().get(Id.get("27542414", Node.class));
+		addLinkToNetwork(network, "bab100-as-grenzallee-n",
+				node1, grenzalleeN, allowedModes, capacity_as, freespeed_as, lanes, 38.947);
+
+		addLinkToNetwork(network, "bab100-as-grenzallee-s",
+				grenzalleeS, node2, allowedModes, capacity_as, freespeed_as, lanes, 36.711);
+
+
+		// Grenzallee to Sonnenallee
 			Node sonnenalleeN1 = network.getFactory().createNode(Id.createNodeId("sonnenallee-nord1"), new Coord(4599632, 5816201));
 			Node sonnenalleeN2 = network.getFactory().createNode(Id.createNodeId("sonnenallee-nord2"), new Coord(4599672, 5816235));
 
@@ -47,26 +72,24 @@ public class NetworkChanger {
 			network.addNode(sonnenalleeS1);
 			network.addNode(sonnenalleeS2);
 
-			Node startNode = network.getNodes().get(Id.get("206191207", Node.class));  // Motorway Grenzallee
 
 			// add motorway north/east direction
 			addLinkToNetwork(network, "bab100-grenzallee-sonnenallee",
-						startNode, sonnenalleeN1, allowedModes, capacity, freespeed, lanes, 746.230);
+						grenzalleeN, sonnenalleeN1, allowedModes, capacity, freespeed, lanes, 707.823);
 			addLinkToNetwork(network, "bab100-sonnenallee-n",
 					sonnenalleeN1, sonnenalleeN2, allowedModes, capacity, freespeed, lanes, 52.458);
 
 			// add motorway south/west direction
-			Node targetNode = network.getNodes().get(Id.get("27542427", Node.class));  // Motorway Grenzallee
 			addLinkToNetwork(network, "bab100-sonnenallee-s",
 					sonnenalleeS1, sonnenalleeS2, allowedModes, capacity, freespeed, lanes, 52.547);
 			addLinkToNetwork(network, "bab100-sonnenallee-grenzallee",
-					sonnenalleeS2, targetNode, allowedModes, capacity, freespeed, lanes, 746.417);
+					sonnenalleeS2, grenzalleeS, allowedModes, capacity, freespeed, lanes, 709.374);
 
 			// Sonnenallee
 			// add AS for northern motorway
 			// motorway to street
-			Node node1 = network.getNodes().get(Id.get("31357357", Node.class));
-			Node node2 = network.getNodes().get(Id.get("31390656", Node.class));
+			node1 = network.getNodes().get(Id.get("31357357", Node.class));
+			node2 = network.getNodes().get(Id.get("31390656", Node.class));
 			addLinkToNetwork(network, "bab100-as-sonnenallee-n1",
 				sonnenalleeN1, node1, allowedModes, capacity_as, freespeed_as, lanes, 46.891);
 
