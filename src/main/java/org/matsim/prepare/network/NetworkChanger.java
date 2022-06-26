@@ -177,14 +177,10 @@ public class NetworkChanger {
 					node2, trParkS2, allowedModes, capacity_as, freespeed_as, lanes, 23.262);
 
 //		}
-//
+
 //		// ---- Abschnitt 17 (4.1 km) ----
 //		{
 //			// Treptower Park to Ostkreuz
-//			startNode1 = null;  // 29787110 nach Norden
-//			startNode2 = null;  // 29787103 nach Sueden
-//			targetNode1 = null;  // 4317221792    --> Ostkreuz hat nur einen Punkt auf der Markgrafenstr, einen auf Hauptstr
-//			targetNode2 = null;  // Hauptstr: 4370346530 nach Osten, 4245068305   nach Westen
 			Node ostkreuzN1 = network.getFactory().createNode(Id.createNodeId("ostkreuz-nord1"), new Coord(4599744, 5819705));
 			Node ostkreuzN2 = network.getFactory().createNode(Id.createNodeId("ostkreuz-nord2"), new Coord(4599807, 5819805));
 			Node ostkreuzS1 = network.getFactory().createNode(Id.createNodeId("ostkreuz-sued1"), new Coord(4599793, 5819813));
@@ -243,8 +239,6 @@ public class NetworkChanger {
 
 
 //			// Ostkreuz to Frankfurter Allee
-//			targetNode2 = null;  //  Kreuzung Moellendorffstr/Frankfurter Allee (von unten links gegen den Uhrzeigersinn):
-//			// 12614683, 598234402, 288267826, 29784919
 			Node frankfurterN1 = network.getFactory().createNode(Id.createNodeId("frankfurter-nord1"), new Coord(4600297, 5820952));
 			Node frankfurterN2 = network.getFactory().createNode(Id.createNodeId("frankfurter-nord2"), new Coord(4600304, 5821024));
 			Node frankfurterS1 = network.getFactory().createNode(Id.createNodeId("frankfurter-sued1"), new Coord(4600288, 5821026));
